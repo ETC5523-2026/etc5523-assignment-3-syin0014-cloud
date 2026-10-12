@@ -1,4 +1,44 @@
-/* Links in the article */
+/* Website colours */
+:root {
+  --ink: #352a2d;
+  --muted-background: #f3e3e6;
+  --accent: #852f43;
+}
+
+/* Readable background and text */
+body {
+  background-color: #fffaf8;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+/* Heading hierarchy */
+main h1,
+main h2,
+main h3 {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+main h2 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Title banner */
+.quarto-title-banner {
+  background-color: var(--muted-background);
+  border-bottom: 2px solid var(--accent);
+  padding: 2.5rem 0;
+}
+
+.quarto-title-banner h1.title {
+  color: #702c3a;
+  font-family: Georgia, serif;
+  line-height: 1.2;
+}
+
+/* Links in paragraphs */
 main p a {
   color: var(--accent);
   text-decoration: underline;
@@ -8,32 +48,37 @@ main p a:hover {
   color: #702c3a;
 }
 
-/* Buttons and About-page links */
-main .btn,
-main a.about-link {
-  background-color: var(--accent);
-  color: white;
+/* GitHub and Email buttons */
+div.quarto-about-jolla .about-links .about-link {
+  background-color: #fffaf8;
+  color: var(--accent);
   border: 1px solid var(--accent);
   border-radius: 6px;
   padding: 0.5rem 1rem;
   text-decoration: none;
 }
 
-/* Feedback when hovering or pressing */
-main .btn:hover,
-main a.about-link:hover {
+/* Keep button text and icons the same colour */
+div.quarto-about-jolla .about-link .about-link-text,
+div.quarto-about-jolla .about-link i {
+  color: inherit;
+}
+
+/* Hover feedback */
+div.quarto-about-jolla .about-links .about-link:hover {
+  background-color: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* Press feedback */
+div.quarto-about-jolla .about-links .about-link:active {
   background-color: #702c3a;
+  color: white;
   border-color: #702c3a;
-  color: white;
 }
 
-main .btn:active,
-main a.about-link:active {
-  background-color: #54212d;
-  color: white;
-}
-
-/* Visible focus for keyboard users */
+/* Keyboard focus */
 main a:focus-visible,
 main button:focus-visible {
   outline: 3px solid var(--accent);

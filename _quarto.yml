@@ -6,16 +6,19 @@ website:
   navbar:
     background: "#702c3a"
     foreground: "#ffffff"
-    right:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: posts/welcome/index.qmd
+        text: Blog
       - href: about.qmd
         text: About
+    right:
       - icon: github
-        text: GitHub
         href: https://github.com/syin0014-cloud
 
 format:
   html:
     theme: cosmo
     css: styles.css
-
 
