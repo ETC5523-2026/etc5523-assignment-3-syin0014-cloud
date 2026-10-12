@@ -1,4 +1,41 @@
-/* css styles */
-.navbar-dark, .quarto-title-banner {
-  background-color: #006DAE;
+/* Links in the article */
+main p a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+main p a:hover {
+  color: #702c3a;
+}
+
+/* Buttons and About-page links */
+main .btn,
+main a.about-link {
+  background-color: var(--accent);
+  color: white;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+}
+
+/* Feedback when hovering or pressing */
+main .btn:hover,
+main a.about-link:hover {
+  background-color: #702c3a;
+  border-color: #702c3a;
+  color: white;
+}
+
+main .btn:active,
+main a.about-link:active {
+  background-color: #54212d;
+  color: white;
+}
+
+/* Visible focus for keyboard users */
+main a:focus-visible,
+main button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
 }
