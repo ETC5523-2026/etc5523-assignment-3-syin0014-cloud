@@ -16,7 +16,7 @@ about:
 
     - icon: envelope
       text: Email
-      href: "mailto:YOUR_EMAIL"
+      href: "mailto:syin0014@student.monash.edu"
 ---
 
 ::: {#profile}
