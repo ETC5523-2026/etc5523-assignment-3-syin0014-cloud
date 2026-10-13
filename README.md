@@ -29,3 +29,17 @@ The cover photograph is by [Tima Miroshnichenko on Pexels](https://www.pexels.co
 I used ChatGPT to help format the website, suggest and debug R and CSS code, resolve Quarto rendering errors, and check grammar. They also assisted with adapting my Assignment 2 report into a blog post, formatting tables.
 
 I remain responsible for checking and revising all submitted content and code.
+
+## Repository structure
+
+The `main` branch contains the website source files:
+
+-   `_quarto.yml` — website configuration and navigation.
+-   `styles.css` — custom colours, typography and page layouts.
+-   `index.qmd` — homepage and automatic blog listing.
+-   `about.qmd` — personal biography and contact links.
+-   `profile.jpg` — profile photograph for the About page.
+-   `posts/_metadata.yml` — shared settings for blog posts.
+-   `posts/welcome/index.qmd` — blog post, including text, tables and figure references.
+-   `posts/welcome/references.bib` — academic reference used in the blog.
+-   `posts/welcome/figures/` — reproduced research figures and the cover photograph.

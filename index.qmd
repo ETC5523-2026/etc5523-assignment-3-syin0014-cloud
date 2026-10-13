@@ -10,7 +10,7 @@ listing:
   type: grid
   grid-columns: 1
   fields: [image, title, description, author, date]
-  categories: false
+  categories: true
   sort: "date desc"
   date-format: long
   max-description-length: 300
