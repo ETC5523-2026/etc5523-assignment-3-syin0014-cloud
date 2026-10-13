@@ -84,3 +84,53 @@ main button:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
+
+/* Homepage heading and divider */
+.home-page h2 {
+  color: #702c3a;
+  border-bottom: 1px solid #d9bdc5;
+  padding-bottom: 0.8rem;
+}
+
+/* Article preview frame */
+.home-page .quarto-grid-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  background: #ffffff;
+  border: 1px solid #e5cbd2;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.home-page .quarto-grid-item .card-body {
+  order: -1;
+  padding: 1.8rem;
+}
+
+.home-page .quarto-grid-item .card-img-top {
+  align-self: center;
+  padding: 1.5rem;
+}
+
+.home-page .quarto-grid-item img {
+  width: 100%;
+  height: auto !important;
+  border-radius: 0.7rem;
+}
+
+.home-page .listing-title {
+  color: #702c3a;
+  font-size: 1.7rem;
+  line-height: 1.35;
+}
+
+.home-page .listing-description {
+  margin-top: 1rem;
+  line-height: 1.8;
+}
+
+@media (max-width: 767px) {
+  .home-page .quarto-grid-item {
+    grid-template-columns: 1fr;
+  }
+}

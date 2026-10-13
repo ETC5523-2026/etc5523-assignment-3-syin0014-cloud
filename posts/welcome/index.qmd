@@ -7,7 +7,7 @@ categories: [Public Health, Data Stories]
 description: "Why a lower hospital infection measure can coexist with a higher population rate, and why infection counts alone do not capture harm."
 bibliography: references.bib
 link-citations: true
-image: figures/zacher-figure2.png
+image: figures/hospital-cover.jpg
 title-block-banner: "#f3e3e6"
 
 format:

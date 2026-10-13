@@ -1,14 +1,25 @@
 ---
 title: "Welcome to My Data Stories"
+page-layout: full
+title-block-banner: "#f3e3e6"
+toc: false
+body-classes: home-page
+
 listing:
   contents: posts
+  type: grid
+  grid-columns: 1
+  fields: [image, title, description, author, date]
+  categories: false
   sort: "date desc"
-  type: default
-  categories: true
+  date-format: long
+  max-description-length: 300
   sort-ui: false
   filter-ui: false
-page-layout: full
-title-block-banner: true
 ---
 
+## Blog post
+
+Explore the numbers behind hospital infections—and why the way
+we count them changes the story.
 
