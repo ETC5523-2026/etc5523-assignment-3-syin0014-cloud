@@ -39,7 +39,7 @@ freeze: false
 
 ## Problem description
 
-A lower hospital infection rate sounds like good news. But does it mean a lower infection rate across the population? Germany's 2011 estimates show why those two questions can lead to different answers.
+A lower hospital infection rate sounds like good news. But does it also mean a lower infection rate across the population? And do more infections always mean more harm? Germany’s 2011 estimates help us explore both questions.
 
 **Healthcare-associated infections (HAIs)** are infections acquired during healthcare. They can mean extra illness, disability or early death for someone already receiving care.
 
