@@ -26,7 +26,7 @@ The cover photograph is by [Tima Miroshnichenko on Pexels](https://www.pexels.co
 
 ## Generative AI declaration
 
-I used ChatGPT to help format the website, suggest and debug R and CSS code, resolve Quarto rendering errors, and check grammar. They also assisted with adapting my Assignment 2 report into a blog post, formatting tables.
+I used ChatGPT to develop and debug R and CSS code for the tables, charts and website layout, resolve Quarto rendering errors and check grammar.
 
 I remain responsible for checking and revising all submitted content and code.
 
