@@ -35,11 +35,11 @@ I remain responsible for checking and revising all submitted content and code.
 The `main` branch contains the website source files:
 
 -   `_quarto.yml` — website configuration and navigation.
--   `styles.css` — custom colours, typography and page layouts.
+-   `styles.css` — custom colors, typography and page layouts.
 -   `index.qmd` — homepage and automatic blog listing.
 -   `about.qmd` — personal biography and contact links.
 -   `profile.jpg` — profile photograph for the About page.
 -   `posts/_metadata.yml` — shared settings for blog posts.
 -   `posts/welcome/index.qmd` — blog post, including text, tables and figure references.
 -   `posts/welcome/references.bib` — academic reference used in the blog.
--   `posts/welcome/figures/` — reproduced research figures and the cover photograph.
+-   `posts/welcome/figures/` — cover photograph used in the blog listing.

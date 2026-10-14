@@ -39,34 +39,51 @@ freeze: false
 
 ## Problem description
 
-A lower infection rate in hospital sounds reassuring. Yet a study of Germany's 2011 healthcare-associated infections estimated a higher annual infection rate across the population than the European comparison. **Both findings can be true: they count infections against different groups of people.**
+A lower hospital infection rate sounds like good news. But does it mean a lower infection rate across the population? Germany's 2011 estimates show why those two questions can lead to different answers.
 
-People enter hospital for care, but an infection acquired during that care can add illness to the problem that brought them there. These are **healthcare-associated infections**, or HAIs. Their consequences can include additional illness, disability and premature death.
+**Healthcare-associated infections (HAIs)** are infections acquired during healthcare. They can mean extra illness, disability or early death for someone already receiving care.
 
-For readers of health news, two questions are important. Does a lower infection figure among hospital patients mean a lower burden across the country? And does the most frequent infection cause the greatest harm? A headline based on one measure can leave out another part of the story.
+@zacher2019 studied five infection types in Germany: pneumonia, primary bloodstream infection, urinary tract infection, surgical-site infection and *Clostridioides difficile* infection.
 
-The study by @zacher2019 helps answer both questions. It estimated the annual burden of five infection types in Germany in **2011**: pneumonia, primary bloodstream infection, urinary tract infection, surgical-site infection and *Clostridioides difficile* infection.
-
-These are historical, model-based estimates. They describe the study period, rather than today's infection rates.
+This blog looks at how the group used to calculate a rate changes the comparison, and why the most common infection may not cause the greatest harm. The estimates describe 2011, not hospital safety today.
 
 ```{r}
 #| label: setup
 
 library(tibble)
 library(kableExtra)
+library(ggplot2)
+
+theme_blog <- theme_minimal(base_size = 13) +
+  theme(
+    text = element_text(colour = "#352a2d"),
+    plot.title = element_text(
+      colour = "#702c3a",
+      face = "bold"
+    ),
+    axis.text = element_text(colour = "#352a2d"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    plot.background = element_rect(
+      fill = "#fffaf8",
+      colour = NA
+    ),
+    strip.text = element_text(
+      face = "bold",
+      colour = "#702c3a"
+    )
+  )
 ```
 
 ## Analysis
 
-### Changing the denominator changes the comparison
+### Reading hospital and population rates
 
-Germany's estimated hospital incidence was lower than the European Union/European Economic Area (EU/EEA) comparison. However, its estimated annual incidence across the resident population was higher.
-
-@tbl-denominators places the two comparisons together. The important difference is the **denominator**: the group against which infections are counted.
+@tbl-denominators shows the comparison from two angles. Germany had fewer estimated infections per 100 patients in hospital than the European Union/European Economic Area (EU/EEA), but more per 100,000 residents.
 
 ```{r}
 #| label: tbl-denominators
-#| tbl-cap: "Two denominators, opposite comparisons. Estimated occurrence of the five selected healthcare-associated infections, using Germany's representative 2011 sample and the EU/EEA 2011–2012 survey. Values are point estimates of infection occurrence, not observed counts of infected patients. Source: Zacher et al. (2019), p. 9 and Table 2."
+#| tbl-cap: "Estimated infections in Germany (2011) and the EU/EEA (2011–2012). Source: Zacher et al. (2019), p. 9 and Table 2."
 
 tribble(
   ~Measure, ~Unit, ~Germany, ~`EU/EEA`,
@@ -91,47 +108,108 @@ tribble(
   )
 ```
 
-How can the comparison reverse? The researchers estimated annual infections by multiplying hospital incidence by the number of hospital discharges, then dividing by the resident population. A discharge represents a completed hospital stay; one person can have more than one stay.
+The difference is the **denominator**: the group infections are counted against. To estimate the population rate, the researchers multiplied hospital incidence by annual hospital discharges, then divided by the resident population. A discharge is a completed hospital stay; one person can have several stays.
 
-Germany's high volume of hospital care per resident therefore helps explain why its population infection rate was higher, despite the lower hospital incidence estimate [@zacher2019, p. 9].
+Germany's greater amount of hospital care per resident helps explain its higher population infection rate [@zacher2019, p. 9]. A lower hospital measure therefore does not automatically mean a lower rate across the population. This comparison alone cannot tell us an individual's risk or how many infections reducing hospital use would prevent.
 
-This answers the first question: **a lower hospital infection measure does not automatically mean a lower population burden**. The population measure reflects both infection occurrence during hospital care and the amount of that care. It is not a resident's probability of becoming infected, and the comparison cannot tell us how many infections reducing hospital use would prevent.
+### Infection counts miss some of the harm
 
-### Counting infections does not capture all the harm
+Counting cases tells us how often infections occur. It tells us less about what happens to the people affected.
 
-The denominator explains the reversal, but infection counts still leave another question unanswered: how much health is lost?
+The study measured health loss in **disability-adjusted life years (DALYs)**. These combine healthy years lost through early death and through illness or disability. One DALY is one lost year of full health.
 
-The researchers used **disability-adjusted life years (DALYs)**. This measure combines healthy years lost through premature death with healthy years lost through illness or disability. One DALY represents one lost year of full health.
+In @fig-frequency, the left panel shows shares of infections and the right shows shares of DALYs. Each percentage uses the study's total for all five infection types.
 
-The original paper's bubble plot, reproduced in @fig-frequency, connects infection frequency, attributable deaths and health loss. An attributable death means a death estimated to result from infection, rather than every death among infected patients.
+```{r}
+#| label: fig-frequency
+#| fig-width: 8
+#| fig-height: 4.6
+#| fig-dpi: 160
+#| out-width: "100%"
+#| fig-cap: "Selected groups' shares of infections and healthy years lost (DALYs), Germany, 2011. Source: Zacher et al. (2019), p. 6."
+#| fig-alt: "Two aligned bar-chart panels. Pneumonia and bloodstream infections account for 28 percent of infections and 51 percent of DALYs. Urinary tract infections account for 45 percent of infections and 27 percent of DALYs."
 
-**How to read the figure:** further right means more infections; higher means more attributable deaths. Start by comparing the bloodstream infection bubble, **BSI**, with the urinary tract infection bubble, **UTI**.
+shares <- data.frame(
+  Group = c(
+    "Pneumonia +\nbloodstream infections",
+    "Pneumonia +\nbloodstream infections",
+    "Urinary tract\ninfections",
+    "Urinary tract\ninfections"
+  ),
+  Measure = c(
+    "Infections",
+    "Healthy years lost (DALYs)",
+    "Infections",
+    "Healthy years lost (DALYs)"
+  ),
+  Share = c(28, 51, 45, 27)
+)
 
-![Infection frequency and harm do not follow the same pattern. Estimated annual infection episodes and attributable deaths for Germany, 2011. The original chart uses bubble diameter, rather than area, to represent DALYs; uncertainty intervals are not shown. HAP = pneumonia; BSI = primary bloodstream infection; UTI = urinary tract infection; SSI = surgical-site infection; CDI = Clostridioides difficile infection. All five are healthcare-associated. Reproduced from Figure 2 in Zacher et al. (2019), p. 4. The surrounding page text was cropped; the graph itself is unchanged.](figures/zacher-figure2.png){#fig-frequency width="85%"}
+shares$Group <- factor(
+  shares$Group,
+  levels = c(
+    "Urinary tract\ninfections",
+    "Pneumonia +\nbloodstream infections"
+  )
+)
 
-BSI is much further left than UTI, showing far fewer estimated infections, but the two bubbles are at similar heights. The study estimated approximately **27,000 bloodstream infections and 3,905 attributable deaths**, compared with approximately **214,000 urinary tract infections and 3,664 attributable deaths** [@zacher2019, Table 1].
+shares$Measure <- factor(
+  shares$Measure,
+  levels = c(
+    "Infections",
+    "Healthy years lost (DALYs)"
+  )
+)
 
-The health-loss estimates reinforce this contrast. Pneumonia and primary bloodstream infections together accounted for about **28% of estimated infections but 51% of estimated DALYs**. Urinary tract infections accounted for about **45% of infections and 27% of DALYs** [@zacher2019, p. 6].
+ggplot(
+  shares,
+  aes(x = Share, y = Group, fill = Measure)
+) +
+  geom_col(width = 0.55) +
+  geom_text(
+    aes(label = paste0(Share, "%")),
+    hjust = -0.15,
+    size = 4.2,
+    colour = "#352a2d"
+  ) +
+  facet_wrap(~Measure, nrow = 1) +
+  scale_fill_manual(
+    values = c(
+      "Infections" = "#9c9699",
+      "Healthy years lost (DALYs)" = "#852f43"
+    ),
+    guide = "none"
+  ) +
+  scale_x_continuous(
+    limits = c(0, 60),
+    breaks = seq(0, 60, 20),
+    labels = function(x) paste0(x, "%"),
+    expand = expansion(mult = c(0, 0.02))
+  ) +
+  labs(
+    title = "Infection frequency and health loss tell different stories",
+    x = "Share of total within each measure",
+    y = NULL
+  ) +
+  theme_blog +
+  theme(
+    panel.spacing.x = grid::unit(1.4, "lines")
+  )
+```
 
-Because the original chart scales bubble diameter, comparing bubble areas can exaggerate differences. The reported percentages above provide a clearer guide to the size of the contrast. They are approximate summaries of modelled estimates, rather than a precise ranking of the true burden.
+Pneumonia and primary bloodstream infections together made up **28% of infections but 51% of DALYs**. Urinary tract infections accounted for **45% of infections and 27% of DALYs** [@zacher2019, p. 6].
 
-This answers the second question: **the most frequent infection is not necessarily the greatest source of harm**. Prevention discussions should consider severity alongside frequency. Choosing an intervention would also require evidence about preventability, effectiveness and cost.
+So, infection counts alone can miss serious harm. Only selected groups are shown here; other infection types account for the rest. The percentages are rounded, and the chart does not show uncertainty intervals. They describe a broad pattern, rather than an exact ranking of the true burden.
 
-### Higher infection incidence does not settle every comparison
+Choosing a prevention measure would also require evidence about how well it works, which infections it can prevent and what it costs.
 
-Severity matters, but estimates of harm also have uncertainty. The original paper's European comparison, reproduced in @fig-europe, shows that uncertainty separately for each infection type.
+### How clear is the European comparison?
 
-**How to read the figure:** panel A compares deaths attributable to infection per 100,000 residents. Panel B compares DALYs per 100,000 residents. Within each infection type, compare Germany with the EU/EEA; do not compare bar heights between panels, because their outcomes and scales differ.
-
-![Annual mortality and health-loss estimates for Germany and the EU/EEA, using Germany's representative 2011 survey and the European 2011–2012 survey. Panel A shows attributable deaths per 100,000 residents. Panel B shows DALYs per 100,000 residents, divided into years of life lost through premature death (YLL) and years lived with disability (YLD). Error bars show 95% uncertainty intervals. Infection abbreviations are defined in Figure 1. Reproduced from Figure 3 in Zacher et al. (2019), p. 6. The surrounding page text was cropped; both original panels, scales and legends are retained.](figures/zacher-figure3.png){#fig-europe width="100%"}
-
-Several estimates have wide intervals. Rather than deciding the overall comparison from the visual overlap of these bars alone, @tbl-uncertainty gives the total rate ratios reported by the researchers.
-
-A ratio of **1** means equal estimated rates; a ratio above 1 means a higher German rate.
+@tbl-uncertainty compares Germany's annual rates per resident with the EU/EEA. A ratio of **1** means equal estimated rates; above 1 means a higher German rate.
 
 ```{r}
 #| label: tbl-uncertainty
-#| tbl-cap: "Overall German-to-EU/EEA ratios of annual rates per resident for the five selected infections, using Germany's representative sample. Intervals describe uncertainty represented in the researchers' model. Ratios are taken directly from the paper, rather than calculated by dividing separate median rates. Source: Zacher et al. (2019), p. 7."
+#| tbl-cap: "German-to-EU/EEA rate ratios and 95% uncertainty intervals. Source: Zacher et al. (2019), p. 7."
 
 tribble(
   ~Outcome, ~`Germany / EU/EEA`, ~`95% uncertainty interval`,
@@ -158,42 +236,94 @@ tribble(
   )
 ```
 
-The infection-rate ratio's interval remains above 1, supporting higher population infection incidence in Germany. The mortality and DALY ratio intervals cross 1, allowing both lower and higher German rates. They do not prove that the rates were equal.
+In @fig-europe, each point is an estimate and each line shows its 95% uncertainty interval. The dashed line at 1 marks equal rates. An interval crossing this line allows both lower and higher German rates.
 
-The distinction matters for the article's central question: the evidence supports higher population infection incidence more clearly than it supports higher mortality or overall health-loss rates.
+```{r}
+#| label: fig-europe
+#| fig-width: 8
+#| fig-height: 4.4
+#| fig-dpi: 160
+#| out-width: "100%"
+#| fig-cap: "German-to-EU/EEA rate ratios with 95% uncertainty intervals. Source: Zacher et al. (2019), p. 7."
+#| fig-alt: "Three estimates with uncertainty intervals and a reference line at one. Infection ratio: 1.27, interval 1.14 to 1.43. Attributable-death ratio: 1.29, interval 0.78 to 2.18. DALY ratio: 1.06, interval 0.68 to 1.67."
 
-### Where the evidence came from
+ratios <- data.frame(
+  Outcome = c(
+    "Infections",
+    "Deaths due to\ninfection",
+    "Healthy years lost\n(DALYs)"
+  ),
+  Ratio = c(1.27, 1.29, 1.06),
+  Lower = c(1.14, 0.78, 0.68),
+  Upper = c(1.43, 2.18, 1.67)
+)
 
-The study used the European Centre for Disease Prevention and Control's hospital **point prevalence survey**: a snapshot of infections present among patients at the survey date.
+ratios$Outcome <- factor(
+  ratios$Outcome,
+  levels = rev(ratios$Outcome)
+)
 
-The representative German sample included **9,626 patients in 46 hospitals** in 2011. The European comparison included **273,753 patients in 1,149 hospitals** surveyed in 2011–2012. Eurostat supplied population and hospital-discharge data [@zacher2019, pp. 3–4].
+ggplot(
+  ratios,
+  aes(x = Ratio, y = Outcome)
+) +
+  geom_vline(
+    xintercept = 1,
+    linetype = "dashed",
+    colour = "#66565b"
+  ) +
+  geom_segment(
+    aes(
+      x = Lower,
+      xend = Upper,
+      yend = Outcome
+    ),
+    linewidth = 1.1,
+    colour = "#852f43"
+  ) +
+  geom_point(
+    size = 3.6,
+    colour = "#702c3a"
+  ) +
+  geom_text(
+    aes(label = sprintf("%.2f", Ratio)),
+    vjust = -1.2,
+    size = 4,
+    colour = "#352a2d"
+  ) +
+  scale_x_continuous(
+    limits = c(0.5, 2.3),
+    breaks = c(0.5, 1, 1.5, 2),
+    expand = expansion(mult = 0.02)
+  ) +
+  labs(
+    title = "How certain is the German-to-European comparison?",
+    subtitle = "Points are estimates; lines show 95% uncertainty intervals",
+    x = "Germany / EU/EEA rate ratio",
+    y = NULL
+  ) +
+  theme_blog
+```
 
-The researchers' BHAI method converted survey prevalence into annual incidence, then used disease-outcome models to estimate attributable deaths and DALYs. They reported medians and uncertainty intervals using 1,000 Monte Carlo simulations.
+The infection-rate ratio is **1.27**, with its interval entirely above 1. The death and DALY intervals include 1. This supports higher population infection incidence more clearly than higher death or health-loss rates. It does not prove that the latter rates were equal.
 
-A larger German convenience sample helped estimate infection duration and age–sex distributions. This article consistently uses the representative sample's headline results, rather than mixing the two German samples.
+### Where these estimates came from
 
-Three limitations are particularly important:
+The study used the European Centre for Disease Prevention and Control's hospital **point prevalence surveys**: snapshots of infections present at the survey date. Germany's representative 2011 sample included **9,626 patients in 46 hospitals**. The European survey covered **273,753 patients in 1,149 hospitals** in 2011–2012. Eurostat supplied population and hospital-discharge data [@zacher2019, pp. 3–4].
 
-- **Historical estimates are not current surveillance.** These findings do not establish today's hospital safety. Infection episodes also do not necessarily represent different people.
-- **The study did not cover every HAI.** The five infection types represented about 79% of HAIs in the European survey. German hospitals were sampled by size, but differences in patient mix could still affect the estimates.
-- **Health-loss estimates depend on assumptions.** Some disease-outcome evidence was sparse or of moderate to low quality, and European assumptions about underlying illness were applied to Germany [@zacher2019, pp. 7, 10].
+The researchers converted these snapshots into annual infection estimates, then used models to estimate deaths and DALYs. A larger German convenience sample helped estimate infection duration and age–sex patterns; this blog uses the representative sample's headline results throughout.
 
-The uncertainty intervals reflect inputs represented in the model; they cannot capture every possible bias. The source paper provides the detailed methods and limitations for readers who want to investigate further.
+There are limits to what these estimates can tell us. The five infection types covered about **79% of HAIs** in the European survey. Patient groups could differ between hospitals, and some evidence about infection outcomes was limited. Assumptions about underlying illness were also taken from European data and applied to Germany [@zacher2019, pp. 7, 10]. The reported intervals cannot capture every possible bias. Infection episodes do not necessarily represent different people.
 
 ## Conclusion
 
-A lower infection measure among hospital patients did not mean a lower annual infection rate across Germany's population in these historical estimates. The amount of hospital care helps explain the difference. Likewise, the most frequent infections were not necessarily those producing the greatest health loss.
+Germany's lower infection measure among hospital patients did not mean a lower rate across its population. The amount of hospital care helps explain the difference. Infection counts also missed part of the harm: some less common infections accounted for a larger share of healthy years lost.
 
-The European comparison was clearest for infection incidence; the mortality and DALY comparisons remained uncertain.
-
-For readers of infection news, the practical takeaway is to ask **what is counted, who it is divided by, and how harm and uncertainty are represented**. These questions give a fuller interpretation than a single rate.
-
-The study supports that careful reading. It does not establish current infection rates or the effect of a particular service change [@zacher2019].
+When reading infection news, check the group behind the rate, the health effects being measured and the uncertainty. These historical estimates help us read the numbers more carefully; they do not establish today's hospital safety or the effect of a particular service change [@zacher2019].
 
 ## Reference {.unnumbered}
 
 <style>
-/* Left-aligned reference with comfortable spacing */
 #refs {
   margin: 1.5rem 0 2rem;
   text-indent: 0;
@@ -206,13 +336,11 @@ The study supports that careful reading. It does not establish current infection
   line-height: 1.8;
 }
 
-/* Readable reference links */
 #refs a {
   color: var(--accent);
   overflow-wrap: anywhere;
 }
 
-/* Separate figure attribution from the reference */
 .figure-credit {
   background-color: var(--muted-background);
   border-left: 3px solid var(--accent);
@@ -231,11 +359,9 @@ The study supports that careful reading. It does not establish current infection
 
 ::: {.figure-credit}
 
-**Figure attribution**
+**Data and figures**
 
-The reproduced figures are from Zacher et al. (2019),
-
-The surrounding page text was cropped and the captions were
-rewritten for this blog. The graphs were not redrawn.
+The figures were created in R for this blog using published summary
+estimates from Zacher et al. (2019). No individual patient data were used.
 
 :::
