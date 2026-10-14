@@ -1,13 +1,41 @@
 ---
-title: "About"
+title: "Siyuan Yin"
 image: profile.jpg
+format:
+  html:
+    toc: true
+    toc-title: "On this page"
+    toc-location: right
 about:
+  id: profile
   template: jolla
   links:
     - icon: github
-      text: Github
-      href: https://github.com/etc5523-2022
+      text: GitHub
+      href: https://github.com/syin0014-cloud
 
+    - icon: envelope
+      text: Email
+      href: "mailto:syin0014@student.monash.edu"
 ---
 
-This is a blog template for the ETC5523 Communicating with Data assessment at Monash University.
+::: {#profile}
+
+Hello! I'm Siyuan Yin, a student at Monash University with a background in econometrics and business analytics. I use R for data analysis and visualization, and enjoy turning research findings into clear, accessible data stories.
+
+My latest blog post explores healthcare-associated infections in
+Germany. It explains why hospital and population measures can tell
+different stories about infection burden, and why infection counts
+alone do not capture the full impact on health.
+
+:::
+
+## Contact
+
+You can contact me by email or explore my work on GitHub.
+
+| Platform | Link                                                |
+|:---------|:----------------------------------------------------|
+| GitHub   | [syin0014-cloud](https://github.com/syin0014-cloud) |
+| Email    | <syin0014@student.monash.edu>                       |
+| Blog     | [Read my data story](posts/welcome/index.qmd)       |
